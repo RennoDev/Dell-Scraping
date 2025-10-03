@@ -1,263 +1,522 @@
-# 🖥️ Dell Products Scraper# 🖥️ Dell Products Scraper
+# 🖥️ Dell Products Scraper# 🖥️ Dell Products Scraper# 🖥️ Dell Products Scraper
 
 
 
-> Professional web scraper for collecting and storing Dell products with complete data pipeline.> Professional web scraper for collecting and storing Dell products with complete data pipeline.
+> Professional web scraper for collecting and storing Dell products with complete data pipeline.
 
 
 
-## 📋 About the Project## 📋 About the Project
+## 📋 About the Project> Professional web scraper for collecting and storing Dell products with complete data pipeline.> Professional web scraper for collecting and storing Dell products with complete data pipeline.
 
 
 
-Web scraping system developed to collect product information from Dell's official website, process the data, and store it in a PostgreSQL database with management interface.Web scraping system developed to collect product information from Dell's official website, process the data, and store it in a PostgreSQL database with management interface.
+Web scraping system developed to collect product information from Dell's official website, process the data, and store it in a PostgreSQL database with management interface.
 
 
 
-### 🎯 Objectives### 🎯 Objectives
+### 🎯 Objectives## 📋 About the Project## 📋 About the Project
 
-- **Automated collection** of Dell products (model, price, links)- **Automated collection** of Dell products (model, price, links)
+- **Automated collection** of Dell products (model, price, links)
+
+- **Structured storage** in PostgreSQL
+
+- **Robust pipeline** for data processing
+
+- **Scalable architecture** with containerizationWeb scraping system developed to collect product information from Dell's official website, process the data, and store it in a PostgreSQL database with management interface.Web scraping system developed to collect product information from Dell's official website, process the data, and store it in a PostgreSQL database with management interface.
+
+
+
+## 🛠️ Technology Stack
+
+
+
+### **Core Technologies**### 🎯 Objectives### 🎯 Objectives
+
+- **Python 3.13** - Main programming language
+
+- **PostgreSQL 16** - Relational database- **Automated collection** of Dell products (model, price, links)- **Automated collection** of Dell products (model, price, links)
+
+- **Docker & Docker Compose** - Containerization
 
 - **Structured storage** in PostgreSQL- **Structured storage** in PostgreSQL
 
-- **Robust pipeline** for data processing- **Robust pipeline** for data processing
+### **Web Scraping**
+
+- **Playwright 1.55+** - Modern web automation- **Robust pipeline** for data processing- **Robust pipeline** for data processing
+
+- **Rich 14.1+** - Professional CLI interface
 
 - **Scalable architecture** with containerization- **Scalable architecture** with containerization
 
+### **Database & ORM**
+
+- **SQLAlchemy 2.0+** - ORM and data abstraction
+
+- **Alembic 1.16+** - Schema migrations
+
+- **psycopg2-binary 2.9+** - PostgreSQL driver## 🛠️ Technology Stack## 🛠️ Technology Stack
 
 
-## 🛠️ Technology Stack## 🛠️ Technology Stack
 
+### **Configuration & Data**
 
+- **Dynaconf 3.2+** - Configuration management
 
-### **Core Technologies**### **Core Technologies**
+- **Pydantic 2.11+** - Data validation### **Core Technologies**### **Core Technologies**
+
+- **Pandas 2.3+** - Data processing
 
 - **Python 3.13** - Main programming language- **Python 3.13** - Main programming language
 
-- **PostgreSQL 16** - Relational database- **PostgreSQL 16** - Relational database
+### **Development Tools**
 
-- **Docker & Docker Compose** - Containerization- **Docker & Docker Compose** - Containerization
+- **uv** - Modern dependency manager- **PostgreSQL 16** - Relational database- **PostgreSQL 16** - Relational database
+
+- **Structlog 25.4+** - Structured logging
+
+- **Tenacity 9.1+** - Automatic retry- **Docker & Docker Compose** - Containerization- **Docker & Docker Compose** - Containerization
+
+- **pgAdmin 4** - Database administration interface
 
 
+
+## 🏗️ System Architecture
 
 ### **Web Scraping**### **Web Scraping**
 
-- **Playwright 1.55+** - Modern web automation- **Playwright 1.55+** - Modern web automation
+```mermaid
 
-- **Rich 14.1+** - Professional CLI interface- **Rich 14.1+** - Professional CLI interface
+graph TB- **Playwright 1.55+** - Modern web automation- **Playwright 1.55+** - Modern web automation
+
+    A[Dell Website] --> B[Playwright Scraper]
+
+    B --> C[Data Processor]- **Rich 14.1+** - Professional CLI interface- **Rich 14.1+** - Professional CLI interface
+
+    C --> D[Pydantic Validator]
+
+    D --> E[SQLAlchemy Models]
+
+    E --> F[PostgreSQL]
+
+    F --> G[pgAdmin Interface]### **Database & ORM**### **Database & ORM**
+
+    
+
+    H[Dynaconf] --> B- **SQLAlchemy 2.0+** - ORM and data abstraction- **SQLAlchemy 2.0+** - ORM and data abstraction
+
+    H --> E
+
+    I[Rich CLI] --> B- **Alembic 1.16+** - Schema migrations- **Alembic 1.16+** - Schema migrations
+
+    J[Alembic] --> F
+
+```- **psycopg2-binary 2.9+** - PostgreSQL driver- **psycopg2-binary 2.9+** - PostgreSQL driver
 
 
 
-### **Database & ORM**### **Database & ORM**
+### **Separation of Concerns**
 
-- **SQLAlchemy 2.0+** - ORM and data abstraction- **SQLAlchemy 2.0+** - ORM and data abstraction
+```
 
-- **Alembic 1.16+** - Schema migrations- **Alembic 1.16+** - Schema migrations
+📁 src/dell/### **Configuration & Data**### **Configuration & Data**
 
-- **psycopg2-binary 2.9+** - PostgreSQL driver- **psycopg2-binary 2.9+** - PostgreSQL driver
+├── 📂 config/          # Configurations (Dynaconf)
+
+├── 📂 models/          # SQLAlchemy Models- **Dynaconf 3.2+** - Configuration management- **Dynaconf 3.2+** - Configuration management
+
+├── 📂 scraper/         # Web scraping logic
+
+├── 📂 services/        # Business rules  - **Pydantic 2.11+** - Data validation- **Pydantic 2.11+** - Data validation
+
+├── 📂 repositories/    # Data access
+
+└── 📂 utils/           # General utilities- **Pandas 2.3+** - Data processing- **Pandas 2.3+** - Data processing
+
+```
 
 
 
-### **Configuration & Data**### **Configuration & Data**
-
-- **Dynaconf 3.2+** - Configuration management- **Dynaconf 3.2+** - Configuration management
-
-- **Pydantic 2.11+** - Data validation- **Pydantic 2.11+** - Data validation
-
-- **Pandas 2.3+** - Data processing- **Pandas 2.3+** - Data processing
-
-
+## 🗄️ Database Schema
 
 ### **Development Tools**### **Development Tools**
 
+### **Main Tables**
+
 - **uv** - Modern dependency manager- **uv** - Modern dependency manager
 
-- **Structlog 25.4+** - Structured logging- **Structlog 25.4+** - Structured logging
+#### **Categories**
 
-- **Tenacity 9.1+** - Automatic retry- **Tenacity 9.1+** - Automatic retry
+- `id` (PK) - Unique identifier- **Structlog 25.4+** - Structured logging- **Structlog 25.4+** - Structured logging
+
+- `name` - Category name (e.g., "Laptops")
+
+- `slug` - URL-friendly identifier- **Tenacity 9.1+** - Automatic retry- **Tenacity 9.1+** - Automatic retry
+
+- `created_at`, `updated_at`, `is_active` - Audit fields
 
 - **pgAdmin 4** - Database administration interface- **pgAdmin 4** - Database administration interface
 
+#### **Products**  
 
+- `id` (PK) - Unique identifier
 
-## 🏗️ System Architecture## 🏗️ System Architecture
+- `model` - Dell product model
 
+- `price` - Price (DECIMAL 10,2)## 🏗️ System Architecture## 🏗️ System Architecture
 
+- `link` - Product URL on Dell website
+
+- `category_id` (FK) - Reference to Categories
+
+- `created_at`, `updated_at`, `is_active` - Audit fields
 
 ```mermaid```mermaid
 
-graph TBgraph TB
+### **Relationships**
+
+- **1:N** - One category can have multiple productsgraph TBgraph TB
+
+- **Foreign Key** with referential integrity
 
     A[Dell Website] --> B[Playwright Scraper]    A[Dell Website] --> B[Playwright Scraper]
 
+## ⚙️ Secure Configuration
+
     B --> C[Data Processor]    B --> C[Data Processor]
 
-    C --> D[Pydantic Validator]    C --> D[Pydantic Validator]
+### **Multi-Environment**
 
-    D --> E[SQLAlchemy Models]    D --> E[SQLAlchemy Models]
+```toml    C --> D[Pydantic Validator]    C --> D[Pydantic Validator]
 
-    E --> F[PostgreSQL]    E --> F[PostgreSQL]
+# settings.toml
 
-    F --> G[pgAdmin Interface]    F --> G[pgAdmin Interface]
+[development]    D --> E[SQLAlchemy Models]    D --> E[SQLAlchemy Models]
 
-        
+debug = true
+
+scraping_delay = 1    E --> F[PostgreSQL]    E --> F[PostgreSQL]
+
+
+
+[production]      F --> G[pgAdmin Interface]    F --> G[pgAdmin Interface]
+
+debug = false
+
+scraping_delay = 3        
+
+```
 
     H[Dynaconf] --> B    H[Dynaconf] --> B
 
-    H --> E    H --> E
+### **Secrets Management**
 
-    I[Rich CLI] --> B    I[Rich CLI] --> B
+```toml    H --> E    H --> E
 
-    J[Alembic] --> F    J[Alembic] --> F
+# .secrets.toml (git ignored)
 
-``````
+[default]    I[Rich CLI] --> B    I[Rich CLI] --> B
 
+POSTGRES_PASSWORD = "secure_password"
 
+POSTGRES_USER = "dell_user"    J[Alembic] --> F    J[Alembic] --> F
 
-### **Separation of Concerns**### **Separation of Concerns**
-
-``````
-
-📁 src/dell/📁 src/dell/
-
-├── 📂 config/          # Configurations (Dynaconf)├── 📂 config/          # Configurations (Dynaconf)
-
-├── 📂 models/          # SQLAlchemy Models├── 📂 models/          # SQLAlchemy Models
-
-├── 📂 scraper/         # Web scraping logic├── 📂 scraper/         # Web scraping logic
-
-├── 📂 services/        # Business rules  ├── 📂 services/        # Business rules  
-
-├── 📂 repositories/    # Data access├── 📂 repositories/    # Data access
-
-└── 📂 utils/           # General utilities└── 📂 utils/           # General utilities
+```
 
 ``````
 
+### **Environment Variables**
+
+```bash
+
+# .env (git ignored)
+
+ENV_FOR_DYNACONF=development### **Separation of Concerns**### **Separation of Concerns**
+
+POSTGRES_DB=dell_db
+
+POSTGRES_USER=dell_user``````
+
+POSTGRES_PASSWORD=dev_password_123
+
+```📁 src/dell/📁 src/dell/
 
 
-## 🗄️ Database Schema## 🗄️ Database Schema
+
+## 🐳 Containerization├── 📂 config/          # Configurations (Dynaconf)├── 📂 config/          # Configurations (Dynaconf)
 
 
 
-### **Main Tables**### **Main Tables**
+### **Docker Compose Services**├── 📂 models/          # SQLAlchemy Models├── 📂 models/          # SQLAlchemy Models
+
+- **PostgreSQL 16-Alpine** - Main database
+
+- **pgAdmin 4** - Web administration interface├── 📂 scraper/         # Web scraping logic├── 📂 scraper/         # Web scraping logic
+
+- **Persistent volumes** - Data preservation
+
+- **Isolated network** - Container communication├── 📂 services/        # Business rules  ├── 📂 services/        # Business rules  
 
 
 
-#### **Categories**#### **Categories**
+## 🚀 Setup and Installation├── 📂 repositories/    # Data access├── 📂 repositories/    # Data access
 
-- `id` (PK) - Unique identifier- `id` (PK) - Unique identifier
+
+
+### **Prerequisites**└── 📂 utils/           # General utilities└── 📂 utils/           # General utilities
+
+- Python 3.13+
+
+- Docker & Docker Compose``````
+
+- uv package manager
+
+
+
+### **1. Clone and Setup**
+
+```bash## 🗄️ Database Schema## 🗄️ Database Schema
+
+git clone <repository>
+
+cd dell
+
+cp .env.example .env
+
+# Edit credentials in .env### **Main Tables**### **Main Tables**
+
+```
+
+
+
+### **2. Install Dependencies**
+
+```bash#### **Categories**#### **Categories**
+
+uv sync
+
+uv run playwright install chromium- `id` (PK) - Unique identifier- `id` (PK) - Unique identifier
+
+```
 
 - `name` - Category name (e.g., "Laptops")- `name` - Category name (e.g., "Laptops")
 
-- `slug` - URL-friendly identifier- `slug` - URL-friendly identifier
+### **3. Start Infrastructure**
+
+```bash- `slug` - URL-friendly identifier- `slug` - URL-friendly identifier
+
+docker-compose up -d postgres
+
+docker-compose up -d pgadmin  # Optional- `created_at`, `updated_at`, `is_active` - Audit fields- `created_at`, `updated_at`, `is_active` - Audit fields
+
+```
+
+
+
+### **4. Setup Database**
+
+```bash#### **Products**  #### **Products**  
+
+# Apply migrations
+
+uv run alembic upgrade head- `id` (PK) - Unique identifier- `id` (PK) - Unique identifier
+
+
+
+# Verify created tables- `model` - Dell product model- `model` - Dell product model
+
+docker exec -it dell_postgres psql -U dell_user -d dell_db -c "\dt"
+
+```- `price` - Price (DECIMAL 10,2)- `price` - Price (DECIMAL 10,2)
+
+
+
+### **5. Access pgAdmin (Optional)**- `link` - Product URL on Dell website- `link` - Product URL on Dell website
+
+- **URL:** http://localhost:8080
+
+- **Email:** admin@dell.com- `category_id` (FK) - Reference to Categories- `category_id` (FK) - Reference to Categories
+
+- **Password:** admin_dev_123
 
 - `created_at`, `updated_at`, `is_active` - Audit fields- `created_at`, `updated_at`, `is_active` - Audit fields
 
+**Configure connection:**
 
+- **Host:** postgres
 
-#### **Products**  #### **Products**  
+- **Port:** 5432
 
-- `id` (PK) - Unique identifier- `id` (PK) - Unique identifier
+- **Database:** dell_db### **Relationships**### **Relationships**
 
-- `model` - Dell product model- `model` - Dell product model
+- **Username:** dell_user  
 
-- `price` - Price (DECIMAL 10,2)- `price` - Price (DECIMAL 10,2)
-
-- `link` - Product URL on Dell website- `link` - Product URL on Dell website
-
-- `category_id` (FK) - Reference to Categories- `category_id` (FK) - Reference to Categories
-
-- `created_at`, `updated_at`, `is_active` - Audit fields- `created_at`, `updated_at`, `is_active` - Audit fields
+- **Password:** [your_password_from_.env]- **1:N** - One category can have multiple products- **1:N** - One category can have multiple products
 
 
 
-### **Relationships**### **Relationships**
-
-- **1:N** - One category can have multiple products- **1:N** - One category can have multiple products
-
-- **Foreign Key** with referential integrity- **Foreign Key** with referential integrity
+## 📊 Development Methodology- **Foreign Key** with referential integrity- **Foreign Key** with referential integrity
 
 
 
-## ⚙️ Secure Configuration## ⚙️ Secure Configuration
+### **Bottom-Up Approach**
 
+1. **🏗️ Infrastructure First** - Docker, PostgreSQL, configurations
 
+2. **🗄️ Database Layer** - Models, relationships, migrations  ## ⚙️ Secure Configuration## ⚙️ Secure Configuration
 
-### **Multi-Environment**### **Multi-Environment**
+3. **⚙️ Configuration Management** - Dynaconf, secrets, environments
+
+4. **🕸️ Business Logic** - Scrapers, services, pipeline
+
+5. **💻 User Interface** - CLI, commands, feedback
+
+6. **🧪 Testing & Quality** - Tests, validations### **Multi-Environment**### **Multi-Environment**
+
+7. **🐳 Deployment** - Complete containerization
 
 ```toml```toml
 
-# settings.toml# settings.toml
+### **Applied Principles**
 
-[development][development]
+- **Separation of Concerns** - Each layer has single responsibility# settings.toml# settings.toml
 
-debug = truedebug = true
+- **Database First** - Well-defined schema before logic
 
-scraping_delay = 1scraping_delay = 1
+- **Configuration Management** - Organized environments and secrets[development][development]
+
+- **Containerization** - Reproducible infrastructure
+
+- **Type Safety** - Pydantic + SQLAlchemy for validationdebug = truedebug = true
 
 
 
-[production]  [production]  
+## 🔄 Database Migrationsscraping_delay = 1scraping_delay = 1
 
-debug = falsedebug = false
+
+
+```bash
+
+# Generate new migration
+
+uv run alembic revision --autogenerate -m "Description of change"[production]  [production]  
+
+
+
+# Apply migrationsdebug = falsedebug = false
+
+uv run alembic upgrade head
 
 scraping_delay = 3scraping_delay = 3
 
-``````
+# View history
+
+uv run alembic history``````
 
 
 
-### **Secrets Management**### **Secrets Management**
+# Rollback if needed  
 
-```toml```toml
+uv run alembic downgrade -1
 
-# .secrets.toml (git ignored)# .secrets.toml (git ignored)
-
-[default][default]
-
-POSTGRES_PASSWORD = "secure_password"POSTGRES_PASSWORD = "secure_password"
-
-POSTGRES_USER = "dell_user"POSTGRES_USER = "dell_user"
-
-``````
+```### **Secrets Management**### **Secrets Management**
 
 
 
-### **Environment Variables**### **Environment Variables**
-
-```bash```bash
-
-# .env (git ignored)# .env (git ignored)
-
-ENV_FOR_DYNACONF=developmentENV_FOR_DYNACONF=development
-
-POSTGRES_DB=dell_dbPOSTGRES_DB=dell_db
-
-POSTGRES_USER=dell_userPOSTGRES_USER=dell_user
-
-POSTGRES_PASSWORD=dev_password_123POSTGRES_PASSWORD=dev_password_123
-
-``````
+## 📈 Project Status```toml```toml
 
 
+
+### **✅ Implemented**# .secrets.toml (git ignored)# .secrets.toml (git ignored)
+
+- ✅ Complete Docker infrastructure
+
+- ✅ SQLAlchemy models with relationships[default][default]
+
+- ✅ Alembic migrations system
+
+- ✅ Secure multi-environment configurationPOSTGRES_PASSWORD = "secure_password"POSTGRES_PASSWORD = "secure_password"
+
+- ✅ Functional PostgreSQL database
+
+- ✅ Configured pgAdmin interfacePOSTGRES_USER = "dell_user"POSTGRES_USER = "dell_user"
+
+
+
+### **🔄 In Development**``````
+
+- 🔄 Playwright web scraper
+
+- 🔄 Processing pipeline
+
+- 🔄 Rich CLI interface
+
+- 🔄 Structured logging system### **Environment Variables**### **Environment Variables**
+
+
+
+### **⏳ Planned**```bash```bash
+
+- ⏳ Automated testing
+
+- ⏳ Application containerization# .env (git ignored)# .env (git ignored)
+
+- ⏳ CI/CD pipeline
+
+- ⏳ Monitoring and alertsENV_FOR_DYNACONF=developmentENV_FOR_DYNACONF=development
+
+
+
+## 👨‍💻 DevelopmentPOSTGRES_DB=dell_dbPOSTGRES_DB=dell_db
+
+
+
+### **Useful Commands**POSTGRES_USER=dell_userPOSTGRES_USER=dell_user
+
+```bash
+
+# Development environmentPOSTGRES_PASSWORD=dev_password_123POSTGRES_PASSWORD=dev_password_123
+
+uv sync
+
+export ENV_FOR_DYNACONF=development``````
+
+
+
+# Start infrastructure
+
+docker-compose up -d
 
 ## 🐳 Containerization## 🐳 Containerization
 
+# Apply migrations
+
+uv run alembic upgrade head
 
 
-### **Docker Compose Services**### **Docker Compose Services**
 
-- **PostgreSQL 16-Alpine** - Main database- **PostgreSQL 16-Alpine** - Main database
+# View logs### **Docker Compose Services**### **Docker Compose Services**
+
+docker-compose logs postgres
+
+docker-compose logs pgadmin- **PostgreSQL 16-Alpine** - Main database- **PostgreSQL 16-Alpine** - Main database
+
+```
 
 - **pgAdmin 4** - Web administration interface- **pgAdmin 4** - Web administration interface
 
+## 📄 License
+
 - **Persistent volumes** - Data preservation- **Persistent volumes** - Data preservation
+
+This project is developed for educational and technical demonstration purposes.
 
 - **Isolated network** - Container communication- **Isolated network** - Container communication
 
+---
 
 
+
+**Developed with enterprise-grade methodology to demonstrate software architecture and data engineering best practices.** 🏆
 ## 🚀 Setup and Installation## 🚀 Setup and Installation
 
 
