@@ -1,0 +1,13 @@
+[default]
+database_host = "localhost"
+database_port = 5432
+POSTGRES_DB = "dell_db" 
+log_level = "INFO"
+
+[development]
+debug = true
+scraping_delay = 1
+
+[production]
+debug = false  
+scraping_delay = 3

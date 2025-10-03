@@ -1,0 +1,26 @@
+[project]
+name = "dell"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.16.5",
+    "dynaconf>=3.2.11",
+    "pandas>=2.3.3",
+    "playwright>=1.55.0",
+    "psycopg2-binary>=2.9.10",
+    "pydantic>=2.11.9",
+    "python-dotenv>=1.1.1",
+    "rich>=14.1.0",
+    "sqlalchemy>=2.0.43",
+    "structlog>=25.4.0",
+    "tenacity>=9.1.2",
+]
+
+[project.scripts]
+dell = "dell:main"
+
+[build-system]
+requires = ["uv_build>=0.8.13,<0.9.0"]
+build-backend = "uv_build"
