@@ -26,7 +26,7 @@ dell-scraper/
 │
 └── 🛠️ Infrastructure
     ├── Docker Compose     # Container Orchestration
-    ├── Logging System     # Structured Logs (success/failed/debug/audit)
+    ├── Logging System     # Structured Logs (success/failed)
     └── Configuration      # Multi-environment Settings
 ```
 
@@ -216,17 +216,9 @@ settings.toml
 ```
 logs/
 ├── success/           # Successful operations
-│   ├── scraping_YYYYMMDD.log
-│   └── database_YYYYMMDD.log
-├── failed/            # Failed operations  
-│   ├── errors_YYYYMMDD.log
-│   └── retries_YYYYMMDD.log
-├── debug/             # Debug information
-│   ├── browser_YYYYMMDD.log
-│   └── workflows_YYYYMMDD.log
-└── audit/             # System audit trail
-    ├── access_YYYYMMDD.log
-    └── changes_YYYYMMDD.log
+│   └── success_dd.MM.yyyy_hh.mm.log
+└── failed/            # Failed operations  
+    └── failed_dd.MM.yyyy_hh.mm.log
 ```
 
 ### Log Categories

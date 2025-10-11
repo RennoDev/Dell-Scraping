@@ -1,6 +1,12 @@
 import logging
+from datetime import datetime
+from pathlib import Path
+from typing import Optional
 
+from rich.console import Console
+from rich.logging import RichHandler
 from rich.theme import Theme
+from rich.traceback import install as install_rich_traceback
 
 # Tema customizado para diferentes tipos de log
 RICH_THEME = Theme(
@@ -73,6 +79,77 @@ class RichFormatter(logging.Formatter):
         return super().format(record)
 
 
+class ContextualFileHandler(logging.Handler):
+    """
+    Handler que cria arquivos separados para success/failed baseado no timestamp da execução.
+
+    Padrão dos arquivos:
+    - logs/success/success_dd.MM.yyyy_hh.mm.log
+    - logs/failed/failed_dd.MM.yyyy_hh.mm.log
+    """
+
+    def __init__(self):
+        super().__init__()
+        # Timestamp da execução (fixo para toda a execução)
+        self.execution_timestamp = datetime.now().strftime("%d.%m.%Y_%H.%M")
+        self.active_handlers = {}  # Cache de handlers por tipo
+
+    def emit(self, record):
+        """Redireciona log para arquivo apropriado baseado no nível."""
+        try:
+            # Determinar tipo de arquivo baseado no nível do log
+            if record.levelno >= logging.ERROR:
+                file_type = "failed"
+            elif record.levelno >= logging.INFO:
+                file_type = "success"
+            else:
+                return  # DEBUG não vai para arquivo
+
+            # Obter handler para este tipo de arquivo
+            handler = self._get_file_handler(file_type)
+            if handler:
+                handler.emit(record)
+
+        except Exception:
+            self.handleError(record)
+
+    def _get_file_handler(self, file_type: str) -> Optional[logging.FileHandler]:
+        """Obtém ou cria handler para o tipo de arquivo especificado."""
+        if file_type in self.active_handlers:
+            return self.active_handlers[file_type]
+
+        try:
+            # Gerar caminho do arquivo
+            file_path = f"logs/{file_type}/{file_type}_{self.execution_timestamp}.log"
+
+            # Criar diretório se não existir
+            Path(file_path).parent.mkdir(parents=True, exist_ok=True)
+
+            # Criar handler
+            handler = logging.FileHandler(file_path, encoding="utf-8")
+            handler.setFormatter(self.formatter)
+
+            # Cache do handler
+            self.active_handlers[file_type] = handler
+
+            return handler
+
+        except Exception as e:
+            # Se falhar, tentar fallback
+            print(f"Erro ao criar handler de arquivo {file_type}: {e}")
+            return None
+
+    def close(self):
+        """Fecha todos os handlers ativos."""
+        for handler in self.active_handlers.values():
+            try:
+                handler.close()
+            except Exception:
+                pass
+        self.active_handlers.clear()
+        super().close()
+
+
 def setup_rich_logging(
     environment: str = "development",
     console_output: bool = True,
@@ -121,27 +198,24 @@ def setup_rich_logging(
             markup=config["markup"],
             show_time=config["show_time"],
             show_path=config["show_path"],
-            highlighter=None if not config["highlighter"] else RichHandler._highlighter,
         )
 
         # Aplicar formatter customizado
         console_handler.setFormatter(RichFormatter())
         root_logger.addHandler(console_handler)
 
-    # Configurar handler de arquivo (se habilitado)
+    # Configurar handlers de arquivo contextuais (se habilitado)
     if file_output:
-        file_path = log_file or "logs/debug/rich_app.log"
-
-        # Handler de arquivo SEM Rich (para compatibilidade)
-        file_handler = logging.FileHandler(file_path, encoding="utf-8")
-        file_handler.setLevel(getattr(logging, config["file_level"]))
+        # Criar handler contextual que separa success/failed
+        contextual_handler = ContextualFileHandler()
+        contextual_handler.setLevel(getattr(logging, config["file_level"]))
 
         # Formatter simples para arquivo
         file_formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
-        file_handler.setFormatter(file_formatter)
-        root_logger.addHandler(file_handler)
+        contextual_handler.setFormatter(file_formatter)
+        root_logger.addHandler(contextual_handler)
 
     # Configurar nível do logger raiz
     root_logger.setLevel(logging.DEBUG)
