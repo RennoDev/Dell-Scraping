@@ -1,13 +1,21 @@
+# settings.toml (adicionar seções)
 [default]
 database_host = "localhost"
 database_port = 5432
-POSTGRES_DB = "dell_db" 
+POSTGRES_DB = "dell_db"
 log_level = "INFO"
+rich_logging = true      # ← NOVO
+console_logging = true   # ← NOVO  
+file_logging = true      # ← NOVO
 
 [development]
 debug = true
 scraping_delay = 1
+rich_logging = true      # ← Rich habilitado em dev
+console_logging = true
 
-[production]
-debug = false  
+[production] 
+debug = false
 scraping_delay = 3
+rich_logging = false     # ← Rich desabilitado em prod (performance)
+console_logging = false  # ← Apenas arquivo em prod
